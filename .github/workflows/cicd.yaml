@@ -1,0 +1,31 @@
+name: CI/CD Pipeline for DB
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Unzip db.zip
+        run: |
+          sudo apt-get install unzip
+          unzip db.zip
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Start the application in db folder
+        working-directory: ./db
+        run: npm start
